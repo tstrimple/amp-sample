@@ -28,10 +28,11 @@
 </head>
 <body>
     <h1>Sample: Adaptive with Progressive Fallback</h1>
-    <video id="azuremediaplayer" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0"> </video>
+    <video id="azuremediaplayer1" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0"> </video>
+    <video id="azuremediaplayer2" class="azuremediaplayer amp-default-skin amp-big-play-centered" tabindex="0"> </video>
     <script>
         var myOptions = {
-            autoplay: true,
+            autoplay: false,
             controls: true,
             width: "640",
             height: "400",
@@ -42,13 +43,33 @@
 						  }
 						}
         };
-        var myPlayer = amp("azuremediaplayer", myOptions);
-        myPlayer.src([
+
+        var myPlayer1 = amp("azuremediaplayer1", myOptions);
+        
+        myPlayer1.addEventListener(amp.eventName.play, function() {
+            myPlayer2.pause();
+        });
+
+        myPlayer1.src([
         	{
         		src: "//amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest",
         		type: "application/vnd.ms-sstr+xml"
             }
         ]);
+
+        var myPlayer2 = amp("azuremediaplayer2", myOptions);
+
+        myPlayer2.addEventListener(amp.eventName.play, function() {
+            myPlayer1.pause();
+        });
+
+        myPlayer2.src([
+        	{
+        		src: "//amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest",
+        		type: "application/vnd.ms-sstr+xml"
+            }
+        ]);
+
     </script>
     <footer>
         <br />
